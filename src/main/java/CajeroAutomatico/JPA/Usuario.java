@@ -1,17 +1,29 @@
 package CajeroAutomatico.JPA;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 
 public class Usuario {
     private int IdUsuario;
+    @JsonProperty("nombre")
     private String Nombre;
+    @JsonProperty("apellidoPaterno")
     private String ApellidoPaterno;
+    @JsonProperty("apellidoMaterno")
     private String ApellidoMaterno;
+    @JsonProperty("curp")
     private String Curp;
+    @JsonProperty("fechaNacimiento")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate FechaNacimiento;
+    @JsonProperty("email")
     private String Email;
+    @JsonProperty("password")
     private String Password;
+    @JsonProperty("telefono")
     private String Telefono;
+    @JsonProperty("banco")
     private Banco Banco;
     
     public int getIdUsuario(){

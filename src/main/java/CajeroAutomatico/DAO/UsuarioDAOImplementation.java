@@ -18,6 +18,13 @@ public class UsuarioDAOImplementation implements IUsuario{
     public Result Add(Usuario usuario) {
         Result result = new Result();
         try {
+            boolean existe = ExisteUsuarioBanco(usuario.getCurp(), usuario.getBanco().getIdBanco());
+            
+            if (existe) {
+                result.correct = false;
+                result.errorMessage = "Ya existe una cuenta registrada de este usuario en este banco";
+            }
+            
             StoredProcedureQuery query = entityManager.createStoredProcedureQuery("RegistrarUsuarioSP");
             
             query.registerStoredProcedureParameter("P_NOMBRE", String.class, ParameterMode.IN);
@@ -53,10 +60,21 @@ public class UsuarioDAOImplementation implements IUsuario{
             
         } catch (Exception ex) {
             result.correct = false;
-            result.errorMessage = ex.getLocalizedMessage();
+            result.errorMessage = "Error al registrar usuario";
             result.ex = ex;
         }
         return result;
     }
+
+    @Override
+    public boolean ExisteUsuarioBanco(String curp, Integer idBanco) {
+        Long total = entityManager.createQuery("SELECT COUNT(u) FROM Usuario u WHERE u.Curp = :curp AND u.Banco.IdBanco = :idBanco", Long.class)
+                .setParameter("curp", curp)
+                .setParameter("idBanco", idBanco)
+                .getSingleResult();
+        
+        return total > 0;
+    }
+    
     
 }

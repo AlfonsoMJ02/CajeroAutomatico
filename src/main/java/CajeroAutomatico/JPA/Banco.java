@@ -1,6 +1,9 @@
 package CajeroAutomatico.JPA;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Banco {
+    @JsonProperty("idBanco")
     private int IdBanco;
     private String Nombre;
     

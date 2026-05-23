@@ -3,19 +3,27 @@ package CajeroAutomatico.Service;
 import CajeroAutomatico.JPA.Result;
 import CajeroAutomatico.ML.Denominacion;
 import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.StoredProcedureQuery;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CajeroService {
-    
+
+    @Autowired
+    private EntityManager entityManager;
+
     private List<Denominacion> denominaciones;
-    
+
     @PostConstruct
-    public void Cajero(){
+    public void Cajero() {
+
         denominaciones = new ArrayList<>();
-        
+
         denominaciones.add(new Denominacion(1000, 2));
         denominaciones.add(new Denominacion(500, 5));
         denominaciones.add(new Denominacion(200, 10));
@@ -27,50 +35,62 @@ public class CajeroService {
         denominaciones.add(new Denominacion(2, 200));
         denominaciones.add(new Denominacion(1, 300));
         denominaciones.add(new Denominacion(0.5, 100));
-        
     }
-    
-    public Result Retiros(double monto){
+
+    public Result Retiros(Integer idTarjeta, double monto) {
+
         Result result = new Result();
-        
+
         try {
+
             List<Denominacion> retiro = new ArrayList<>();
-            
+
             double restante = monto;
-            
+
             for (Denominacion denominacion : denominaciones) {
-                
+
                 int usar = 0;
-                
-                while (restante >= denominacion.getValor() && denominacion.getCantidad() > 0){
+
+                while (restante >= denominacion.getValor() && denominacion.getCantidad() > 0) {
+
                     restante -= denominacion.getValor();
-                    
                     restante = Math.round(restante * 100.0) / 100.0;
-                    
+
                     denominacion.setCantidad(denominacion.getCantidad() - 1);
-                    
+
                     usar++;
                 }
+
                 if (usar > 0) {
                     retiro.add(new Denominacion(denominacion.getValor(), usar));
                 }
             }
-            
+
             if (restante > 0) {
                 result.correct = false;
                 result.errorMessage = "No hay denominaciones suficientes";
-                
+
                 return result;
             }
+
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery("CuentaRetiroSP");
+            query.registerStoredProcedureParameter("pIdTarjeta", Integer.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter("pMonto", Double.class, ParameterMode.IN);
+
+            query.setParameter("pIdTarjeta", idTarjeta);
+            query.setParameter("pMonto", monto);
             
-            result.correct = false;
+            query.execute();
+
+            result.correct = true;
             result.object = retiro;
-            
+
         } catch (Exception ex) {
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
         }
+
         return result;
     }
 }
