@@ -2,9 +2,17 @@ package CajeroAutomatico.JPA;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "Usuario")
 public class Usuario {
+    @Id
+    @Column(name = "IdUsuario")
     private int IdUsuario;
     @JsonProperty("nombre")
     private String Nombre;
@@ -23,8 +31,6 @@ public class Usuario {
     private String Password;
     @JsonProperty("telefono")
     private String Telefono;
-    @JsonProperty("banco")
-    private Banco Banco;
     
     public int getIdUsuario(){
         return IdUsuario;
@@ -96,13 +102,5 @@ public class Usuario {
 
     public void setTelefono(String Telefono) {
         this.Telefono = Telefono;
-    }
-
-    public Banco getBanco() {
-        return Banco;
-    }
-
-    public void setBanco(Banco Banco) {
-        this.Banco = Banco;
-    }
+    }    
 }

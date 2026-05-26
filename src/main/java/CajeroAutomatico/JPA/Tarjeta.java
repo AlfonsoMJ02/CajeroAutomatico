@@ -1,28 +1,51 @@
 package CajeroAutomatico.JPA;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class Tarjeta {
+
+    @Id
+    @Column(name = "IdTarjeta")
+    @JsonProperty("idTarjeta")
     private int IdTarjeta;
-    private int IdCuenta;
-    private String NumeroTarjeta;
-    private int Nip;
-    private int VerificacionNip;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "IdCuenta")
+    @JsonProperty("cuenta")
     private Cuenta Cuenta;
-    
-    public int getIdTarjeta(){
+
+    @Column(name = "NumeroTarjeta")
+    @JsonProperty("numeroTarjeta")
+    private String NumeroTarjeta;
+
+    @Column(name = "Nip")
+    @JsonProperty("nip")
+    private int Nip;
+
+    @Column(name = "VerificacionNip")
+    @JsonProperty("verificacionNip")
+    private int VerificacionNip;
+
+    public int getIdTarjeta() {
         return IdTarjeta;
     }
-    
-    public void setIdTarjeta(int IdTarjeta){
+
+    public void setIdTarjeta(int IdTarjeta) {
         this.IdTarjeta = IdTarjeta;
     }
 
-    public int getIdCuenta() {
-        return IdCuenta;
+    public Cuenta getCuenta() {
+        return Cuenta;
     }
 
-    public void setIdCuenta(int IdCuenta) {
-        this.IdCuenta = IdCuenta;
+    public void setCuenta(Cuenta Cuenta) {
+        this.Cuenta = Cuenta;
     }
 
     public String getNumeroTarjeta() {
@@ -49,11 +72,4 @@ public class Tarjeta {
         this.VerificacionNip = VerificacionNip;
     }
 
-    public Cuenta getCuenta() {
-        return Cuenta;
-    }
-
-    public void setCuenta(Cuenta Cuenta) {
-        this.Cuenta = Cuenta;
-    }
 }

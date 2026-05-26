@@ -1,6 +1,7 @@
 package CajeroAutomatico.RestController;
 
-import CajeroAutomatico.DAO.UsuarioDAOImplementation;
+import CajeroAutomatico.DAO.CuentaDAOImplementation;
+import CajeroAutomatico.JPA.Cuenta;
 import CajeroAutomatico.JPA.Result;
 import CajeroAutomatico.JPA.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("Usuario")
-@CrossOrigin(origins = "http://localhost:4200")
 public class UsuarioRestController {
 
     @Autowired
-    public UsuarioDAOImplementation usuarioDAO;
+    public CuentaDAOImplementation usuarioDAO;
 
     @PostMapping
-    public ResponseEntity<Result> Add(@RequestBody Usuario usuario) {
-        Result result = usuarioDAO.Add(usuario);
+    public ResponseEntity<Result> Add(@RequestBody Cuenta cuenta) {
+        Result result = usuarioDAO.Add(cuenta);
 
         if (result.correct) {
             return ResponseEntity.ok().body(result);

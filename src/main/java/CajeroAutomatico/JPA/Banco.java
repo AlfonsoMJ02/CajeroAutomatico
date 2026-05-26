@@ -1,8 +1,12 @@
 package CajeroAutomatico.JPA;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
 public class Banco {
+    @Id
     @JsonProperty("idBanco")
     private int IdBanco;
     @JsonProperty("nombre")

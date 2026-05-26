@@ -4,29 +4,40 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class CorsConfig {
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public CorsFilter corsFilter() {
 
-        CorsConfiguration config = new CorsConfiguration();
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
 
-        config.setAllowCredentials(true);
+        CorsConfiguration corsConfig = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:4200"));
+        corsConfig.setAllowCredentials(true);
 
-        config.setAllowedHeaders(List.of("*"));
+        corsConfig.setAllowedOrigins(List.of(
+                "http://localhost:4200",
+                "http://192.167.0.124:4200"
+        ));
 
-        config.setAllowedMethods(List.of("*"));
+        corsConfig.setAllowedMethods(List.of(
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "PATCH",
+                "OPTIONS"
+        ));
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        corsConfig.setAllowedHeaders(List.of("*"));
 
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/**", corsConfig);
 
-        return source;
+        return new CorsFilter(source);
     }
 }

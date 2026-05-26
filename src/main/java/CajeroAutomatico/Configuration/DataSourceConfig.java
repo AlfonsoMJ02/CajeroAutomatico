@@ -12,7 +12,7 @@ public class DataSourceConfig {
         HikariDataSource dataSource = new HikariDataSource();
         
         dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
-        dataSource.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:XE");
+        dataSource.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:orcl");
         dataSource.setUsername("AMorenoCajeroAutomatico");
         dataSource.setPassword("password1");
 

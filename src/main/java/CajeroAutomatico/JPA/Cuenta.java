@@ -1,37 +1,60 @@
 package CajeroAutomatico.JPA;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
 public class Cuenta {
+
+    @Id
+    @Column(name = "IdCuenta")
+    @JsonProperty("idCuenta")
     private int IdCuenta;
-    private int IdUsuario;
-    private int IdBanco;
-    private String NumeroCuenta;
-    private int Saldo;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "IdUsuario")
+    @JsonProperty("usuario")
     private Usuario Usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "IdBanco")
+    @JsonProperty("banco")
     private Banco Banco;
-    
-    public int getIdCuenta(){
+
+    @Column(name = "NumeroCuenta")
+    @JsonProperty("numeroCuenta")
+    private String NumeroCuenta;
+
+    @Column(name = "Saldo")
+    @JsonProperty("saldo")
+    private int Saldo;
+
+    public int getIdCuenta() {
         return IdCuenta;
     }
-    
-    public void setIdCuenta(int IdCuenta){
+
+    public void setIdCuenta(int IdCuenta) {
         this.IdCuenta = IdCuenta;
     }
 
-    public int getIdUsuario() {
-        return IdUsuario;
+    public Usuario getUsuario() {
+        return Usuario;
     }
 
-    public void setIdUsuario(int IdUsuario) {
-        this.IdUsuario = IdUsuario;
+    public void setUsuario(Usuario Usuario) {
+        this.Usuario = Usuario;
     }
 
-    public int getIdBanco() {
-        return IdBanco;
+    public Banco getBanco() {
+        return Banco;
     }
 
-    public void setIdBanco(int IdBanco) {
-        this.IdBanco = IdBanco;
+    public void setBanco(Banco Banco) {
+        this.Banco = Banco;
     }
 
     public String getNumeroCuenta() {
@@ -50,22 +73,4 @@ public class Cuenta {
         this.Saldo = Saldo;
     }
 
-    public Usuario getUsuario() {
-        return Usuario;
-    }
-
-    public void setUsuario(Usuario Usuario) {
-        this.Usuario = Usuario;
-    }
-
-    public Banco getBanco() {
-        return Banco;
-    }
-
-    public void setBanco(Banco Banco) {
-        this.Banco = Banco;
-    }
-    
-    
-            
 }

@@ -17,11 +17,15 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                        "/auth/login",
-                        "/Banco/**"
+                        "/Auth/Login",
+                        "/Banco/**",
+                        "/Usuario/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 )
+                .formLogin(form -> form.disable())
+                .httpBasic(httpBasic -> httpBasic.disable())
                 .build();
+        
     }
 }
