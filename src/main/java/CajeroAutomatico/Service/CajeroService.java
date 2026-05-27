@@ -73,7 +73,7 @@ public class CajeroService {
                 return result;
             }
 
-            StoredProcedureQuery query = entityManager.createStoredProcedureQuery("CuentaRetiroSP");
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery("RetiroSP");
             query.registerStoredProcedureParameter("pIdTarjeta", Integer.class, ParameterMode.IN);
             query.registerStoredProcedureParameter("pMonto", Double.class, ParameterMode.IN);
 

@@ -28,7 +28,8 @@ public class LoginRestController {
             session.setAttribute("tarjeta", tarjeta.getNumeroTarjeta());            
             session.setAttribute("idCuenta", tarjeta.getCuenta().getIdCuenta());            
             session.setAttribute("banco", tarjeta.getCuenta().getBanco().getNombre());
-            
+            session.setAttribute("idTarjeta", tarjeta.getIdTarjeta());
+             
             return ResponseEntity.ok().body(result);
         } else {
             return ResponseEntity.badRequest().body(result);

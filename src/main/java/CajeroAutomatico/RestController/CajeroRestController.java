@@ -15,7 +15,6 @@ public class CajeroRestController {
     private CajeroService cajeroService;
 
     @PostMapping("/Retirar/{monto}")
-
     public ResponseEntity<Result> Retiro(@PathVariable double monto, HttpSession session) {
 
         Integer idTarjeta = (Integer) session.getAttribute("idTarjeta");
