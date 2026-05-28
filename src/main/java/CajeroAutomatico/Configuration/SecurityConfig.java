@@ -10,37 +10,27 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
-            throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http
 
                 .csrf(csrf -> csrf.disable())
-
                 .cors(Customizer.withDefaults())
-
-                .sessionManagement(session ->
-                        session.sessionFixation().migrateSession()
+                .sessionManagement(session -> session.sessionFixation().migrateSession()
                 )
-
                 .authorizeHttpRequests(auth -> auth
-
                         .requestMatchers(
                                 "/Auth/Login",
+                                "/Auth/Logout",
                                 "/Banco/**",
                                 "/Usuario/**",
                                 "/Cajero/**"
                         ).permitAll()
-
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form.disable())
-
                 .httpBasic(httpBasic -> httpBasic.disable())
-
                 .logout(logout -> logout.disable())
-
                 .build();
     }
 }

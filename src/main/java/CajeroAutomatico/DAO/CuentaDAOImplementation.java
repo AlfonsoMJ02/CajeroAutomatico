@@ -2,6 +2,7 @@ package CajeroAutomatico.DAO;
 
 import CajeroAutomatico.JPA.Cuenta;
 import CajeroAutomatico.JPA.Result;
+import CajeroAutomatico.Service.EmailService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.StoredProcedureQuery;
@@ -12,8 +13,11 @@ import org.springframework.stereotype.Repository;
 public class CuentaDAOImplementation implements ICuenta {
 
     @Autowired
-    public EntityManager entityManager;
-
+    private EntityManager entityManager;
+    
+    @Autowired
+    private EmailService emailService;
+    
     @Override
     public Result Add(Cuenta cuenta) {
         Result result = new Result();
@@ -40,6 +44,8 @@ public class CuentaDAOImplementation implements ICuenta {
             query.registerStoredProcedureParameter("P_IDBANCO", Integer.class, ParameterMode.IN);
 
             query.registerStoredProcedureParameter("P_IDUSUARIO", Integer.class, ParameterMode.OUT);
+            query.registerStoredProcedureParameter("P_NUMEROTARJETA", String.class, ParameterMode.OUT);
+            query.registerStoredProcedureParameter("P_NIP", Integer.class, ParameterMode.OUT);
 
             query.setParameter("P_NOMBRE", cuenta.getUsuario().getNombre());
             query.setParameter("P_APELLIDOPATERNO", cuenta.getUsuario().getApellidoPaterno());
@@ -54,9 +60,13 @@ public class CuentaDAOImplementation implements ICuenta {
             query.execute();
 
             Integer idUsuario = (Integer) query.getOutputParameterValue("P_IDUSUARIO");
+            String numeroTarjeta = (String) query.getOutputParameterValue("P_NUMEROTARJETA");
+            Integer nip = (Integer) query.getOutputParameterValue("P_NIP");
 
             result.object = idUsuario;
             result.correct = true;
+            
+            emailService.enviarCredenciales(cuenta.getUsuario().getEmail(), cuenta.getUsuario().getNombre(), numeroTarjeta, nip);
 
         } catch (Exception ex) {
             result.correct = false;

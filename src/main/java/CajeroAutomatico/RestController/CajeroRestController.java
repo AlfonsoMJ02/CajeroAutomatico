@@ -20,7 +20,7 @@ public class CajeroRestController {
         Integer idTarjeta = (Integer) session.getAttribute("idTarjeta");
 
         if (idTarjeta == null) {
-
+            
             Result result = new Result();
             result.correct = false;
             result.errorMessage = "Usuario no autenticado";
