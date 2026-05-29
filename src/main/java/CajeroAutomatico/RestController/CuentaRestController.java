@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("Usuario")
-public class UsuarioRestController {
+public class CuentaRestController {
 
     @Autowired
     public CuentaDAOImplementation usuarioDAO;

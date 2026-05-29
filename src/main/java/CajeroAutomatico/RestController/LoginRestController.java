@@ -1,6 +1,7 @@
 package CajeroAutomatico.RestController;
 
 import CajeroAutomatico.DAO.LoginDAOImplementacion;
+import CajeroAutomatico.DTO.CambiarNipRequest;
 import CajeroAutomatico.DTO.LoginRequest;
 import CajeroAutomatico.JPA.Result;
 import CajeroAutomatico.JPA.Tarjeta;
@@ -32,6 +33,17 @@ public class LoginRestController {
             session.setAttribute("banco", tarjeta.getCuenta().getBanco().getNombre());
             session.setAttribute("idTarjeta", tarjeta.getIdTarjeta());
 
+            return ResponseEntity.ok().body(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
+    
+    @PostMapping("/CambiarNip")                                                                                                                                                                                                                                                                                               
+    public ResponseEntity<Result> CambiarNip(@RequestBody CambiarNipRequest request){
+        Result result = loginDAO.CambiarNip(request);
+        
+        if (result.correct) {
             return ResponseEntity.ok().body(result);
         } else {
             return ResponseEntity.badRequest().body(result);

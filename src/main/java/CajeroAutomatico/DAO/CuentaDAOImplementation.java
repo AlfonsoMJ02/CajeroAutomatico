@@ -14,10 +14,10 @@ public class CuentaDAOImplementation implements ICuenta {
 
     @Autowired
     private EntityManager entityManager;
-    
+
     @Autowired
     private EmailService emailService;
-    
+
     @Override
     public Result Add(Cuenta cuenta) {
         Result result = new Result();
@@ -65,9 +65,9 @@ public class CuentaDAOImplementation implements ICuenta {
 
             result.object = idUsuario;
             result.correct = true;
-            
-            emailService.enviarCredenciales(cuenta.getUsuario().getEmail(), cuenta.getUsuario().getNombre(), numeroTarjeta, nip);
 
+            emailService.enviarCredenciales(cuenta.getUsuario().getEmail(), cuenta.getUsuario().getNombre() + " " + cuenta.getUsuario().getApellidoPaterno() + " " + cuenta.getUsuario().getApellidoMaterno(), numeroTarjeta, nip, cuenta.getBanco().getNombre());
+            
         } catch (Exception ex) {
             result.correct = false;
             result.errorMessage = "Error al registrar usuario";
@@ -91,5 +91,4 @@ public class CuentaDAOImplementation implements ICuenta {
 
         return false;
     }
-
 }

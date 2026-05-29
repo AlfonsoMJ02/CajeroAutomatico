@@ -22,6 +22,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/Auth/Login",
                                 "/Auth/Logout",
+                                "/Auth/CambiarNip",
                                 "/Banco/**",
                                 "/Usuario/**",
                                 "/Cajero/**"
